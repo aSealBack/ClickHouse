@@ -11,11 +11,6 @@
 #include <boost/program_options.hpp>
 #include <Poco/File.h>
 #include <Poco/Util/Application.h>
-#include <Poco/Logger.h>
-#include <Poco/ConsoleChannel.h>
-#include <Poco/FormattingChannel.h>
-#include <Poco/PatternFormatter.h>
-#include <Poco/AutoPtr.h>
 #include <Common/ClickHouseRevision.h>
 #include <Common/Stopwatch.h>
 #include <Common/Exception.h>
@@ -1368,13 +1363,6 @@ int mainEntryClickHouseClient(int argc, char ** argv)
 
     try
     {
-        Poco::AutoPtr<Poco::ConsoleChannel> channel(new Poco::ConsoleChannel);
-        Poco::AutoPtr<Poco::PatternFormatter> formatter(new Poco::PatternFormatter);
-        formatter->setProperty("pattern", "%L%Y-%m-%d %H:%M:%S.%i <%s>: %t");
-        Poco::AutoPtr<Poco::FormattingChannel> formatting_channel(new Poco::FormattingChannel(formatter, channel));
-        Poco::Logger::root().setChannel(formatting_channel);
-        Poco::Logger::root().setLevel("trace");
-
         client.init(argc, argv);
     }
     catch (const boost::program_options::error & e)
