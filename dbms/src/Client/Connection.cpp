@@ -271,7 +271,7 @@ bool Connection::ping()
     return true;
 }
 
-Protocol::TablesStatusResponse Connection::getTablesStatus(const Protocol::TablesStatusRequest & request)
+TablesStatusResponse Connection::getTablesStatus(const TablesStatusRequest & request)
 {
     if (!connected)
         connect();
@@ -290,7 +290,7 @@ Protocol::TablesStatusResponse Connection::getTablesStatus(const Protocol::Table
     else if (response_type != Protocol::Server::TablesStatusResponse)
         throwUnexpectedPacket(response_type, "TablesStatusResponse");
 
-    Protocol::TablesStatusResponse response;
+    TablesStatusResponse response;
     response.read(*in, server_revision);
     return response;
 }

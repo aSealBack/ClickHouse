@@ -10,7 +10,6 @@
 #include <Core/Defines.h>
 #include <Core/Progress.h>
 #include <Core/Protocol.h>
-#include <Protocol/TablesStatus.h>
 #include <Core/QueryProcessingStage.h>
 
 #include <DataStreams/IBlockInputStream.h>
@@ -18,6 +17,7 @@
 #include <DataStreams/BlockStreamProfileInfo.h>
 
 #include <Interpreters/Settings.h>
+#include <Interpreters/TablesStatus.h>
 
 #include <atomic>
 
@@ -169,7 +169,7 @@ public:
     /// If not connected yet, or if connection is broken - then connect. If cannot connect - throw an exception.
     void forceConnected();
 
-    Protocol::TablesStatusResponse getTablesStatus(const Protocol::TablesStatusRequest & request);
+    TablesStatusResponse getTablesStatus(const TablesStatusRequest & request);
 
     /** Disconnect.
       * This may be used, if connection is left in unsynchronised state

@@ -12,9 +12,6 @@ namespace DB
 class ReadBuffer;
 class WriteBuffer;
 
-namespace Protocol
-{
-
 struct TableStatus
 {
     bool is_replicated;
@@ -39,7 +36,5 @@ struct TablesStatusResponse
     void write(WriteBuffer & out, UInt64 client_protocol_revision) const;
     void read(ReadBuffer & in, UInt64 server_protocol_revision);
 };
-
-}
 
 }

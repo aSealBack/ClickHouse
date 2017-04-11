@@ -65,7 +65,6 @@ add_headers_and_sources(dbms Storages)
 add_headers_and_sources(dbms Storages/Distributed)
 add_headers_and_sources(dbms Storages/MergeTree)
 add_headers_and_sources(dbms Core)
-add_headers_and_sources(dbms Protocol)
 add_headers_and_sources(dbms Client)
 add_headers_only(dbms Server)
 

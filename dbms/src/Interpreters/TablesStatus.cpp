@@ -1,12 +1,10 @@
-#include <Protocol/TablesStatus.h>
+#include <Interpreters/TablesStatus.h>
 #include <IO/ReadBuffer.h>
 #include <IO/WriteBuffer.h>
 #include <IO/ReadHelpers.h>
 #include <IO/WriteHelpers.h>
 
 namespace DB
-{
-namespace Protocol
 {
 
 void TableStatus::write(WriteBuffer & out, UInt64 client_protocol_revision) const
@@ -89,5 +87,4 @@ void TablesStatusResponse::read(ReadBuffer & in, UInt64 server_protocol_revision
     }
 }
 
-}
 }

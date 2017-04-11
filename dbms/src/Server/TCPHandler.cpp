@@ -7,7 +7,6 @@
 #include <Common/Stopwatch.h>
 
 #include <Core/Progress.h>
-#include <Protocol/TablesStatus.h>
 
 #include <IO/CompressedReadBuffer.h>
 #include <IO/CompressedWriteBuffer.h>
@@ -21,6 +20,7 @@
 #include <DataStreams/NativeBlockOutputStream.h>
 #include <Interpreters/executeQuery.h>
 #include <Interpreters/Quota.h>
+#include <Interpreters/TablesStatus.h>
 
 #include <Storages/StorageMemory.h>
 #include <Storages/StorageReplicatedMergeTree.h>
@@ -367,13 +367,13 @@ void TCPHandler::processOrdinaryQuery()
 
 void TCPHandler::processTablesStatusRequest()
 {
-    Protocol::TablesStatusRequest request;
+    TablesStatusRequest request;
     request.read(*in, client_revision);
 
-    Protocol::TablesStatusResponse response;
+    TablesStatusResponse response;
     for (const QualifiedTableName & table_name: request.tables)
     {
-        Protocol::TableStatus status;
+        TableStatus status;
         StoragePtr table = connection_context.getTable(table_name.database, table_name.table);
         if (auto * replicated_table = dynamic_cast<StorageReplicatedMergeTree *>(table.get()))
         {
