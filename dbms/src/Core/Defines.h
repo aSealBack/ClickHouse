@@ -12,7 +12,7 @@
 #define DBMS_DEFAULT_CONNECT_TIMEOUT_WITH_FAILOVER_MS            50
 #define DBMS_DEFAULT_SEND_TIMEOUT_SEC                            300
 #define DBMS_DEFAULT_RECEIVE_TIMEOUT_SEC                        300
-#define DBMS_DEFAULT_PING_TIMEOUT_SEC                            5
+#define DBMS_DEFAULT_SYNC_REQUEST_TIMEOUT_SEC                   5
 #define DBMS_DEFAULT_POLL_INTERVAL                                 10
 
 /// Размер буфера ввода-вывода по-умолчанию.

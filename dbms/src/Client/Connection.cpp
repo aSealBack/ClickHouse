@@ -203,28 +203,28 @@ void Connection::forceConnected()
     }
 }
 
-struct PingTimeoutSetter
+struct TimeoutSetter
 {
-    PingTimeoutSetter(Poco::Net::StreamSocket & socket_, const Poco::Timespan & ping_timeout_)
-    : socket(socket_), ping_timeout(ping_timeout_)
+    TimeoutSetter(Poco::Net::StreamSocket & socket_, const Poco::Timespan & timeout_)
+        : socket(socket_), timeout(timeout_)
     {
         old_send_timeout = socket.getSendTimeout();
         old_receive_timeout = socket.getReceiveTimeout();
 
-        if (old_send_timeout > ping_timeout)
-            socket.setSendTimeout(ping_timeout);
-        if (old_receive_timeout > ping_timeout)
-            socket.setReceiveTimeout(ping_timeout);
+        if (old_send_timeout > timeout)
+            socket.setSendTimeout(timeout);
+        if (old_receive_timeout > timeout)
+            socket.setReceiveTimeout(timeout);
     }
 
-    ~PingTimeoutSetter()
+    ~TimeoutSetter()
     {
         socket.setSendTimeout(old_send_timeout);
         socket.setReceiveTimeout(old_receive_timeout);
     }
 
     Poco::Net::StreamSocket & socket;
-    Poco::Timespan ping_timeout;
+    Poco::Timespan timeout;
     Poco::Timespan old_send_timeout;
     Poco::Timespan old_receive_timeout;
 };
@@ -235,7 +235,7 @@ bool Connection::ping()
     LOG_TRACE(log_wrapper.get(), "Ping " // << st.toString()
              );
 
-    PingTimeoutSetter timeout_setter(socket, ping_timeout);
+    TimeoutSetter timeout_setter(socket, sync_request_timeout);
     try
     {
         UInt64 pong = 0;
@@ -275,6 +275,8 @@ Protocol::TablesStatusResponse Connection::getTablesStatus(const Protocol::Table
 {
     if (!connected)
         connect();
+
+    TimeoutSetter timeout_setter(socket, sync_request_timeout);
 
     writeVarUInt(Protocol::Client::TablesStatusRequest, *out);
     request.write(*out, server_revision);
